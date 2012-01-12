@@ -3,18 +3,19 @@ from math import floor, sin, cos, radians
 
 def main():
     width = height = 640 # TODO: read these variables from a settings file
-    ball_radius = 50     # (should be given as a parameter?)
-    num_balls = 9
-    ball_positions = initialize_ball_positions(width, ball_radius, num_balls)
+    plate_radius = 50    # (should be given as a parameter?)
+    num_plates = 9
+    plate_color = 244, 238, 224
 
-    screensize = width, height
-    ball_color = 244, 238, 224
+    plate_circle = CircleOfPlates(width, plate_radius, num_plates)
+    plate_positions = plate_circle.positions
 
     pygame.init()
+    screensize = width, height
     window = pygame.display.set_mode(screensize)
 
-    for pos in ball_positions:
-        pygame.draw.circle(window, ball_color, pos, ball_radius)
+    for pos in plate_positions:
+        pygame.draw.circle(window, plate_color, pos, plate_radius)
 
     pygame.display.flip()
 
@@ -27,35 +28,43 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
+class CircleOfPlates:
+    def __init__(self, screen_width, plate_radius, number_of_plates):
+        self.circle_radius = self.get_circle_radius(screen_width, plate_radius)
+        self.circle_midpoint = plate_radius + self.circle_radius
+        self.number_of_plates = number_of_plates
+        self.plate_radius = plate_radius
+        self.initialize_plate_positions()
 
-def initialize_ball_positions(screen_width, ball_radius, number_of_balls):
-    positions = list()
-    first_pos = int(floor(screen_width/2)), ball_radius
-    positions.append(first_pos)
+    def initialize_plate_positions(self):
+        positions = list()
+        first_pos = self.circle_midpoint, self.plate_radius
+        positions.append(first_pos)
 
-    circle_radius = get_circle_radius(screen_width, ball_radius)
-    circle_mid = ball_radius + circle_radius
-    angle_difference = radians(int(floor(360 / number_of_balls)))
-    angle = radians(0)
-    for i in range(1, number_of_balls):
-        angle += angle_difference
-        positions.append(next_position(angle, circle_radius, circle_mid))
+        angle_difference = radians(int(floor(360 / self.number_of_plates)))
+        angle = radians(0)
+        for i in range(1, self.number_of_plates):
+            angle += angle_difference
+            positions.append(self.position(angle))
+        self.positions = positions
 
-    return positions
+    def get_circle_radius(self, screen_width, plate_radius):
+        return int(floor((screen_width - 2 * plate_radius) / 2))
 
-def next_position(angle, circle_radius, circle_midpoint):
-    adjacent = adjacent_edge(angle, circle_radius)
-    opposite = opposite_edge(angle, circle_radius)
-    return circle_midpoint + adjacent, circle_midpoint - opposite
+    def position(self, angle):
+        adjacent = Trig.adjacent_edge(angle, self.circle_radius)
+        opposite = Trig.opposite_edge(angle, self.circle_radius)
+        return (self.circle_midpoint + adjacent,
+            self.circle_midpoint - opposite)
 
-def adjacent_edge(angle, hypotenuse):
-    return int(floor(sin(angle) * hypotenuse))
+class Trig:
+    @staticmethod
+    def adjacent_edge(angle, hypotenuse):
+        return int(floor(sin(angle) * hypotenuse))
 
-def opposite_edge(angle, hypotenuse):
-    return int(floor(cos(angle) * hypotenuse))
-
-def get_circle_radius(screen_width, ball_radius):
-    return int(floor((screen_width - 2 * ball_radius) / 2))
+    @staticmethod
+    def opposite_edge(angle, hypotenuse):
+        return int(floor(cos(angle) * hypotenuse))
 
 if __name__ == '__main__':
     main()

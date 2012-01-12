@@ -13,14 +13,14 @@ def initialize_ball_positions(screen_width, ball_radius, number_of_balls):
     angle = radians(0)
     for i in range(1, number_of_balls):
         angle += angle_difference
+        positions.append(next_position(angle, circle_radius, circle_mid))
 
     return positions
 
 def next_position(angle, circle_radius, circle_midpoint):
     adjacent = adjacent_edge(angle, circle_radius)
     opposite = opposite_edge(angle, circle_radius)
-    positions.append((circle_midpoint + adjacent,
-        circle_midpoint - opposite))
+    return circle_midpoint + adjacent, circle_midpoint - opposite
 
 def adjacent_edge(angle, hypotenuse):
     return int(floor(sin(angle) * hypotenuse))

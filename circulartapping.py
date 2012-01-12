@@ -8,14 +8,13 @@ def main():
     plate_color = 244, 238, 224
 
     plate_circle = CircleOfPlates(width, plate_radius, num_plates)
-    plate_positions = plate_circle.positions
 
     pygame.init()
     screensize = width, height
     window = pygame.display.set_mode(screensize)
 
-    for pos in plate_positions:
-        pygame.draw.circle(window, plate_color, pos, plate_radius)
+    for plate in plate_circle:
+        pygame.draw.circle(window, plate_color, plate, plate_radius)
 
     pygame.display.flip()
 
@@ -56,6 +55,10 @@ class CircleOfPlates:
         opposite = Trig.opposite_edge(angle, self.circle_radius)
         return (self.circle_midpoint + adjacent,
             self.circle_midpoint - opposite)
+
+    def __iter__(self):
+        for pos in self.positions:
+            yield pos
 
 class Trig:
     @staticmethod

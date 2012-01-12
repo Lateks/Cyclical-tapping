@@ -1,6 +1,5 @@
 import sys, pygame
 from math import floor, sin, cos, radians
-pygame.init()
 
 def initialize_ball_positions(screen_width, ball_radius, number_of_balls):
     positions = list()
@@ -40,6 +39,7 @@ if __name__ == '__main__':
     screensize = width, height
     ball_color = 244, 238, 224
 
+    pygame.init()
     window = pygame.display.set_mode(screensize)
 
     for pos in ball_positions:

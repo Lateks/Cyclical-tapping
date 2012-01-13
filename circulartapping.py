@@ -1,4 +1,5 @@
-import sys, pygame
+import sys, pygame, time
+from Xlib import X, display
 from math import floor, sin, cos, radians
 
 def main():
@@ -12,7 +13,39 @@ def main():
     screensize = width, height
     screen = CircleScreen(screensize)
     screen.draw_circles(plate_circle, plate_radius, plate_color)
-    screen.run()
+
+    mouselog = MouseLog()
+    runner = ProgRunner(screen, mouselog)
+    runner.run()
+
+class ProgRunner:
+    def __init__(self, screen, mouselog):
+        self.screen = screen
+        self.mouselog = mouselog
+
+    def run(self):
+        self.screen.run()
+        self.__init_screen_root()
+        while True:
+        # TODO: quit when ESC is pressed
+        # TODO: changing colors for the ball markers
+        # (next one highlights on mouseclick)
+            self.__log_mouse()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.mouselog.write()
+                    sys.exit(0)
+
+    def __log_mouse(self):
+        self.display.sync()
+        mouse_pos = self.root.query_pointer()._data
+        self.mouselog.log_position(mouse_pos["root_x"],
+            mouse_pos["root_y"])
+
+    def __init_screen_root(self):
+        self.display = display.Display()
+        Xscreen = self.display.screen()
+        self.root = Xscreen.root
 
 class CircleScreen:
     def __init__(self, screensize):
@@ -26,14 +59,25 @@ class CircleScreen:
     def run(self):
         pygame.display.flip()
 
-        while True:
-        # TODO: quit when ESC is pressed
-        # TODO: log mouse into file
-        # TODO: changing colors for the ball markers
-        # (next one highlights on mouseclick)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+class MouseLog:
+    def __init__(self):
+        self.mouse_positions = list()
+
+    def log_position(self, x, y):
+        self.mouse_positions.append(Coordinate(x, y))
+
+    def write(self):
+        # TODO: write to file
+        for pos in self.mouse_positions:
+            print pos
+
+class Coordinate:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return "%d\t%d" % (self.x, self.y)
 
 class CircleOfPlates:
     def __init__(self, screen_width, plate_radius, number_of_plates):

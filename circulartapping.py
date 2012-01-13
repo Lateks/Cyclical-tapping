@@ -24,7 +24,7 @@ class ProgRunner:
         self.mouselog = mouselog
 
     def run(self):
-        self.screen.run()
+        self.screen.draw()
         self.__init_screen_root()
         while True:
         # TODO: quit when ESC is pressed
@@ -59,7 +59,7 @@ class CircleScreen:
         for pos in circle_positions:
             pygame.draw.circle(self.window, circle_color, pos, circle_radius)
 
-    def run(self):
+    def draw(self):
         pygame.display.flip()
 
 class MouseLog:

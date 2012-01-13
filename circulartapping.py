@@ -9,23 +9,31 @@ def main():
 
     plate_circle = CircleOfPlates(width, plate_radius, num_plates)
 
-    pygame.init()
     screensize = width, height
-    window = pygame.display.set_mode(screensize)
+    screen = CircleScreen(screensize)
+    screen.draw_circles(plate_circle, plate_radius, plate_color)
+    screen.run()
 
-    for plate in plate_circle:
-        pygame.draw.circle(window, plate_color, plate, plate_radius)
+class CircleScreen:
+    def __init__(self, screensize):
+        pygame.init()
+        self.window = pygame.display.set_mode(screensize)
 
-    pygame.display.flip()
+    def draw_circles(self, circle_positions, circle_radius, circle_color):
+        for pos in circle_positions:
+            pygame.draw.circle(self.window, circle_color, pos, circle_radius)
 
-    while True:
-    # TODO: quit when ESC is pressed
-    # TODO: log mouse into file
-    # TODO: changing colors for the ball markers
-    # (next one highlights on mouseclick)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit(0)
+    def run(self):
+        pygame.display.flip()
+
+        while True:
+        # TODO: quit when ESC is pressed
+        # TODO: log mouse into file
+        # TODO: changing colors for the ball markers
+        # (next one highlights on mouseclick)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit(0)
 
 class CircleOfPlates:
     def __init__(self, screen_width, plate_radius, number_of_plates):

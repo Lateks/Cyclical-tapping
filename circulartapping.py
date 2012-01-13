@@ -1,6 +1,6 @@
 import sys, pygame, time
 from geometry import CircleOfPlates
-from screen import CircleScreen
+from screen import PygameDisplayWindow
 from logmouse import MouseLogger
 
 def main():
@@ -12,7 +12,7 @@ def main():
     plate_circle = CircleOfPlates(width, plate_radius, num_plates)
 
     screensize = width, height
-    screen = CircleScreen(screensize)
+    screen = PygameDisplayWindow(screensize)
     screen.draw_circles(plate_circle, plate_radius, plate_color)
 
     mouselog = MouseLogger()

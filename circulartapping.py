@@ -29,13 +29,13 @@ def main():
 
 class CircleOfPlates:
     def __init__(self, screen_width, plate_radius, number_of_plates):
-        self.circle_radius = self.get_circle_radius(screen_width, plate_radius)
+        self.plate_radius = plate_radius
+        self.circle_radius = self.__get_circle_radius(screen_width)
         self.circle_midpoint = plate_radius + self.circle_radius
         self.number_of_plates = number_of_plates
-        self.plate_radius = plate_radius
-        self.initialize_plate_positions()
+        self.__initialize_plate_positions()
 
-    def initialize_plate_positions(self):
+    def __initialize_plate_positions(self):
         positions = list()
         first_pos = self.circle_midpoint, self.plate_radius
         positions.append(first_pos)
@@ -44,13 +44,13 @@ class CircleOfPlates:
         angle = radians(0)
         for i in range(1, self.number_of_plates):
             angle += angle_difference
-            positions.append(self.position(angle))
+            positions.append(self.__position(angle))
         self.positions = positions
 
-    def get_circle_radius(self, screen_width, plate_radius):
-        return int(floor((screen_width - 2 * plate_radius) / 2))
+    def __get_circle_radius(self, screen_width):
+        return int(floor((screen_width - 2 * self.plate_radius) / 2))
 
-    def position(self, angle):
+    def __position(self, angle):
         adjacent = Trig.adjacent_edge(angle, self.circle_radius)
         opposite = Trig.opposite_edge(angle, self.circle_radius)
         return (self.circle_midpoint + adjacent,

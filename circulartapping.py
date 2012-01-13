@@ -31,10 +31,13 @@ class ProgRunner:
         # TODO: changing colors for the ball markers
         # (next one highlights on mouseclick)
             self.__log_mouse()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.mouselog.write()
-                    sys.exit(0)
+            self.__handle_pygame_events()
+
+    def __handle_pygame_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.mouselog.write()
+                sys.exit(0)
 
     def __log_mouse(self):
         self.display.sync()

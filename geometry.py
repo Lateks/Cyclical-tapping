@@ -13,16 +13,10 @@ class CircleOfPlates:
 
     def __initialize_plate_positions(self):
         positions = list()
-        angles = self.__get_plate_angles()
+        angles = Trig.circle_central_angles(self.number_of_plates)
         for angle in angles:
             positions.append(self.__position(angle))
         self.positions = positions
-
-    def __get_plate_angles(self):
-        angle_difference = radians(int(floor(360 / self.number_of_plates)))
-        multiply = lambda x: angle_difference * x
-        angles = map(multiply, range(1, self.number_of_plates + 1))
-        return angles
 
     def __position(self, angle):
         if angle == 0:
@@ -44,3 +38,10 @@ class Trig:
     @staticmethod
     def opposite_edge(angle, hypotenuse):
         return int(floor(cos(angle) * hypotenuse))
+
+    @staticmethod
+    def circle_central_angles(divisor):
+        angle_difference = radians(int(floor(360 / divisor)))
+        multiply = lambda x: angle_difference * x
+        angles = map(multiply, range(1, divisor + 1))
+        return angles

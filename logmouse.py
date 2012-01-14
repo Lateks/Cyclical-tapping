@@ -17,7 +17,6 @@ class MouseLogger:
         self.mouse_positions.append(Coordinate(x, y))
 
     def write_log(self):
-        # TODO: write to file
         for pos in self.mouse_positions:
             print pos
 

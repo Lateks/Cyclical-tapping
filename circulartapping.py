@@ -4,8 +4,8 @@ from screen import PygameDisplayWindow
 from logmouse import MouseLogger
 
 def main():
-    width = height = 640 # TODO: read these variables from a settings file
-    plate_radius = 50    # (should be given as a parameter?)
+    width = height = 640
+    plate_radius = 50
     num_plates = 9
     plate_color = 244, 238, 224
 
@@ -27,9 +27,6 @@ class ProgRunner:
     def run(self):
         self.screen.draw()
         while True:
-        # TODO: quit when ESC is pressed
-        # TODO: changing colors for the ball markers
-        # (next one highlights on mouseclick)
             self.mouselog.log_mouse()
             self.__handle_pygame_events()
 

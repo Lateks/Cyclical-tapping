@@ -12,11 +12,8 @@ class CircleOfPlates:
         return int(floor((screen_width - 2 * self.plate_radius) / 2))
 
     def __initialize_plate_positions(self):
-        positions = list()
         angles = Trig.circle_central_angles(self.number_of_plates)
-        for angle in angles:
-            positions.append(self.__position(angle))
-        self.positions = positions
+        self.positions = map(self.__position, angles)
 
     def __position(self, angle):
         if angle == 0:

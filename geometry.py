@@ -20,9 +20,8 @@ class CircleOfPlates:
 
     def __get_plate_angles(self):
         angle_difference = radians(int(floor(360 / self.number_of_plates)))
-        angles = list()
-        for i in range(0, self.number_of_plates):
-            angles.append(i * angle_difference)
+        multiply = lambda x: angle_difference * x
+        angles = map(multiply, range(1, self.number_of_plates + 1))
         return angles
 
     def __position(self, angle):

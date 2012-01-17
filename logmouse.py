@@ -1,4 +1,5 @@
 from Xlib import X, display
+import time
 
 class MouseLogger:
     def __init__(self):
@@ -8,6 +9,7 @@ class MouseLogger:
         self.root = Xscreen.root
 
     def log_mouse(self):
+        time.sleep(0.01)
         self.display.sync()
         mouse_pos = self.root.query_pointer()._data
         self.__log_position(mouse_pos["root_x"],

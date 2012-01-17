@@ -1,6 +1,6 @@
 from math import floor, sin, cos, radians
 
-class CircleOfPlates:
+class CircleOfPlates(object):
     def __init__(self, screen_width, plate_radius, number_of_plates):
         self.plate_radius = plate_radius
         self.circle_radius = self.__get_circle_radius(screen_width)
@@ -27,7 +27,7 @@ class CircleOfPlates:
         for pos in self.positions:
             yield pos
 
-class Trig:
+class Trig(object):
     @staticmethod
     def adjacent_edge(angle, hypotenuse):
         angle = radians(angle)

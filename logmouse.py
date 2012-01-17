@@ -1,7 +1,7 @@
 from Xlib import X, display
 import time
 
-class MouseLogger:
+class MouseLogger(object):
     def __init__(self):
         self.mouse_positions = list()
         self.display = display.Display()
@@ -22,7 +22,7 @@ class MouseLogger:
         for pos in self.mouse_positions:
             print pos
 
-class Coordinate:
+class Coordinate(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y

@@ -19,7 +19,7 @@ def main():
     runner = ProgRunner(screen, mouselog)
     runner.run()
 
-class ProgRunner:
+class ProgRunner(object):
     def __init__(self, screen, mouselog):
         self.screen = screen
         self.mouselog = mouselog

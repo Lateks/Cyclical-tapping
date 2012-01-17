@@ -1,6 +1,6 @@
 import pygame
 
-class PygameDisplayWindow:
+class PygameDisplayWindow(object):
     def __init__(self, screensize):
         pygame.init()
         self.window = pygame.display.set_mode(screensize)

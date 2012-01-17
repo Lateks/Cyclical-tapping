@@ -30,15 +30,17 @@ class CircleOfPlates:
 class Trig:
     @staticmethod
     def adjacent_edge(angle, hypotenuse):
-        return int(floor(sin(angle) * hypotenuse))
+        angle = radians(angle)
+        return int(round(sin(angle) * hypotenuse))
 
     @staticmethod
     def opposite_edge(angle, hypotenuse):
-        return int(floor(cos(angle) * hypotenuse))
+        angle = radians(angle)
+        return int(round(cos(angle) * hypotenuse))
 
     @staticmethod
     def circle_central_angles(divisor):
-        angle_difference = radians(int(floor(360 / divisor)))
+        angle_difference = int(floor(360 / divisor))
         multiply = lambda x: angle_difference * x
-        angles = map(multiply, range(1, divisor + 1))
+        angles = map(multiply, range(0, divisor))
         return angles

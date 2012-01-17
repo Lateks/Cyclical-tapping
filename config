@@ -1,0 +1,9 @@
+# Example config file. Parameters should always be given in this order.
+# screen width (will be equal to height)
+640
+# plate radius
+50
+# number of plates
+9
+# plate color (RGB)
+244 238 224

@@ -1,5 +1,5 @@
 from Xlib import X, display
-import time
+import os, time, datetime
 
 class MouseLogger(object):
     def __init__(self):
@@ -9,6 +9,7 @@ class MouseLogger(object):
         Xscreen = self.display.screen()
         self.root = Xscreen.root
         self.started = False
+        self.log_dir = "logs"
 
     def log_mouse(self):
         self.__sync()
@@ -36,8 +37,49 @@ class MouseLogger(object):
         self.mouse_positions.append(Coordinate(x, y))
 
     def write_log(self):
-        for pos in self.mouse_positions:
-            print pos
+        log_file = self.__get_logfile()
+        for i in range(0, len(self.mouse_positions)):
+            line = self.__format_output_line(i)
+            log_file.write(line)
+        log_file.close()
+
+    def __format_output_line(self, log_index):
+        return "%.4f\t%s\n" % (self.timestamps[log_index],
+            str(self.mouse_positions[log_index]))
+
+    def __get_logfile(self):
+        success = self.__check_for_and_create_log_directory()
+        if not success:
+            self.log_dir = '.'
+        log_file_name = self.__make_log_name()
+        log_file = self.__get_file_for_writing(
+                    "%s/%s" % (self.log_dir, log_file_name))
+        return log_file
+
+    def __check_for_and_create_log_directory(self):
+        if not os.path.exists(self.log_dir):
+            try:
+                os.mkdir(self.log_dir)
+            except OSError as (errno, strerror):
+                print "Encountered an error while creating log file directory:\n" + \
+                      "%d: %s\n" % (errno, strerror) + \
+                      "Attempting to write log to current directory."
+                return False
+        return True
+
+    def __make_log_name(self):
+        timestamp = str(datetime.datetime.now())
+        timestamp = timestamp.replace(' ', '-')
+        logname = timestamp + '.log'
+        return logname
+
+    def __get_file_for_writing(self, filename):
+        try:
+            file = open(filename, "w")
+            return file
+        except IOError as (errno, strerror):
+            raise LoggingError("Could not open file %s." % filename + \
+                  "Error %d: %s" % (errno, strerror))
 
 class Coordinate(object):
     def __init__(self, x, y):
@@ -46,3 +88,10 @@ class Coordinate(object):
 
     def __str__(self):
         return "%d\t%d" % (self.x, self.y)
+
+class LoggingError(Exception):
+    def __init__(self):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)

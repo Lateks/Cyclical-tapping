@@ -36,6 +36,9 @@ class CircleOf4Plates(unittest.TestCase):
         self.assertEqual(4, len(positions))
         self.assertEqual(expected_positions, positions)
 
+    def test_object_distance(self):
+        self.assertEqual(540, self.circle.get_object_distance())
+
 class CircleOf9Plates(unittest.TestCase):
     def setUp(self):
         self.width = 600

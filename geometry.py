@@ -1,4 +1,4 @@
-from math import floor, sin, cos, radians
+from math import floor, ceil, sin, cos, radians, sqrt
 
 class CircleOfPlates(object):
     def __init__(self, screen_width, plate_radius, number_of_plates):
@@ -27,20 +27,37 @@ class CircleOfPlates(object):
         for pos in self.positions:
             yield pos
 
+    def get_object_distance(self):
+        first_pos = self.__position(0)
+        angle = int(ceil(self.number_of_plates / 2.0)) * \
+                Trig.divide_circle_by(self.number_of_plates)
+        second_pos = self.__position(angle)
+        return Trig.euclidean_distance(first_pos, second_pos)
+
 class Trig(object):
     @staticmethod
-    def adjacent_edge(angle, hypotenuse):
-        angle = radians(angle)
+    def adjacent_edge(deg_angle, hypotenuse):
+        angle = radians(deg_angle)
         return int(round(sin(angle) * hypotenuse))
 
     @staticmethod
-    def opposite_edge(angle, hypotenuse):
-        angle = radians(angle)
+    def opposite_edge(deg_angle, hypotenuse):
+        angle = radians(deg_angle)
         return int(round(cos(angle) * hypotenuse))
 
     @staticmethod
     def circle_central_angles(divisor):
-        angle_difference = int(floor(360 / divisor))
+        angle_difference = Trig.divide_circle_by(divisor)
         multiply = lambda x: angle_difference * x
         angles = map(multiply, range(0, divisor))
         return angles
+
+    @staticmethod
+    def divide_circle_by(divisor):
+        return int(floor(360 / divisor))
+
+    @staticmethod
+    def euclidean_distance(point1, point2):
+        x1, y1 = point1
+        x2, y2 = point2
+        return sqrt((x2 - x1)**2 + (y2 - y1)**2)

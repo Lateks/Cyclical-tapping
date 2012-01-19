@@ -2,14 +2,16 @@ from Xlib import X, display
 import os, time, datetime
 
 class MouseLogger(object):
-    def __init__(self):
+    def __init__(self, trialdata):
         self.mouse_positions = list()
         self.timestamps = list()
+        self.started = False
+        self.log_dir = "logs"
+        self.trialdata = trialdata
+
         self.display = display.Display()
         Xscreen = self.display.screen()
         self.root = Xscreen.root
-        self.started = False
-        self.log_dir = "logs"
 
     def log_mouse(self):
         self.__sync()
@@ -38,10 +40,17 @@ class MouseLogger(object):
 
     def write_log(self):
         log_file = self.__get_logfile()
+        self.__write_trialdata(log_file)
         for i in range(0, len(self.mouse_positions)):
             line = self.__format_output_line(i)
             log_file.write(line)
         log_file.close()
+
+    def __write_trialdata(self, log_file):
+        data = "Target width = %d\n" % (self.trialdata['target_width']) + \
+               "Target distance = %d\n" % (self.trialdata['target_dist']) + \
+               "##########\n\n"
+        log_file.write(data)
 
     def __format_output_line(self, log_index):
         return "%.4f\t%s\n" % (self.timestamps[log_index],

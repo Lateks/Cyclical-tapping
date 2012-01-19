@@ -17,7 +17,11 @@ def main():
     screen = PygameDisplayWindow(screensize)
     screen.draw_circles(plate_circle, plate_radius, plate_color)
 
-    runner = ProgRunner(screen)
+    target_distance = plate_circle.get_object_distance()
+    trialdata = {'target_width': 2 * plate_radius,
+                 'target_dist': target_distance}
+    mouselog = MouseLogger(trialdata)
+    runner = ProgRunner(screen, mouselog)
     runner.run()
 
 class Parameters(object):
@@ -80,9 +84,9 @@ class ParameterError(Exception):
         return repr(self.value)
 
 class ProgRunner(object):
-    def __init__(self, screen):
+    def __init__(self, screen, mouselogger):
         self.screen = screen
-        self.mouselog = MouseLogger()
+        self.mouselog = mouselogger
 
     def run(self):
         self.screen.draw()

@@ -57,8 +57,8 @@ class MouseLogger(object):
             str(self.mouse_positions[log_index]))
 
     def __get_logfile(self):
-        success = self.__check_for_and_create_log_directory()
-        if not success:
+        logdir_exists = self.__check_for_and_create_log_directory()
+        if not logdir_exists:
             self.log_dir = '.'
         log_file_name = self.__make_log_name()
         log_file = self.__get_file_for_writing(

@@ -21,7 +21,8 @@ def main():
     trialdata = {'target_width': 2 * plate_radius,
                  'target_dist': target_distance}
     mouselog = MouseLogger(trialdata)
-    runner = ProgRunner(screen, mouselog)
+    mouse_fps = 100
+    runner = ProgRunner(screen, mouselog, mouse_fps)
     runner.run()
 
 class Parameters(object):
@@ -84,15 +85,20 @@ class ParameterError(Exception):
         return repr(self.value)
 
 class ProgRunner(object):
-    def __init__(self, screen, mouselogger):
+    def __init__(self, screen, mouselogger, log_fps):
         self.screen = screen
         self.mouselog = mouselogger
+        self.logger_sleep_time = 1.0/log_fps
 
     def run(self):
         self.screen.draw()
         while True:
-            self.mouselog.log_mouse()
+            self.__log_mouse()
             self.__handle_pygame_events()
+
+    def __log_mouse(self):
+        time.sleep(self.logger_sleep_time)
+        self.mouselog.log_mouse()
 
     def __handle_pygame_events(self):
         for event in pygame.event.get():

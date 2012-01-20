@@ -8,20 +8,12 @@ class MouseLogger(object):
         self.started = False
         self.log_dir = "logs"
         self.trialdata = trialdata
-
-        self.display = display.Display()
-        Xscreen = self.display.screen()
-        self.root = Xscreen.root
+        self.mouse_pointer = PointerTracker()
 
     def log_mouse(self):
-        self.__sync()
         logtime = self.__time_in_ms_since_start()
-        pointer_x, pointer_y = self.__pointer_position()
+        pointer_x, pointer_y = self.mouse_pointer.get_position()
         self.__log_position_and_time(logtime, pointer_x, pointer_y)
-
-    def __sync(self):
-        time.sleep(0.01)
-        self.display.sync()
 
     def __time_in_ms_since_start(self):
         current_time = time.time()
@@ -29,10 +21,6 @@ class MouseLogger(object):
             self.start_time = current_time
             self.started = True
         return current_time - self.start_time
-
-    def __pointer_position(self):
-        pointer_pos = self.root.query_pointer()._data
-        return pointer_pos["root_x"], pointer_pos["root_y"]
 
     def __log_position_and_time(self, time, x, y):
         self.timestamps.append(time)
@@ -47,9 +35,8 @@ class MouseLogger(object):
         log_file.close()
 
     def __write_trialdata(self, log_file):
-        data = "Target width = %d\n" % (self.trialdata['target_width']) + \
-               "Target distance = %d\n" % (self.trialdata['target_dist']) + \
-               "##########\n\n"
+        data = "# Target width = %d\n" % (self.trialdata['target_width']) + \
+               "# Target distance = %d\n\n" % (self.trialdata['target_dist'])
         log_file.write(data)
 
     def __format_output_line(self, log_index):
@@ -97,6 +84,17 @@ class Coordinate(object):
 
     def __str__(self):
         return "%d\t%d" % (self.x, self.y)
+
+class PointerTracker(object):
+    def __init__(self):
+        self.display = display.Display()
+        Xscreen = self.display.screen()
+        self.root = Xscreen.root
+
+    def get_position(self):
+        self.display.sync()
+        pointer_pos = self.root.query_pointer()._data
+        return pointer_pos["root_x"], pointer_pos["root_y"]
 
 class LoggingError(Exception):
     def __init__(self):

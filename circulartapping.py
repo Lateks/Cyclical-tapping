@@ -35,12 +35,13 @@ class Parameters(object):
         try:
             self.config_file = open("config", "r")
             self.__read_parameters()
+            self.config_file.close()
         except IOError:
             print "Could not open the config file. Using defaults."
         except ParameterError as value:
             print "Invalid config file or parameters:\n" + \
                   "%s\nUsing defaults." % value
-        self.config_file.close()
+            self.config_file.close()
 
     def __read_parameters(self):
         parameters = list()

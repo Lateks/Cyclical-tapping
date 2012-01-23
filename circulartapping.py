@@ -106,6 +106,8 @@ class ProgRunner(object):
             if event.type == pygame.QUIT:
                 self.mouselog.write_log()
                 sys.exit(0)
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.mouselog.log_mouseclick(event)
 
 if __name__ == '__main__':
     main()

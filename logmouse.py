@@ -1,17 +1,33 @@
-from Xlib import X, display
+import pygame
 import os, time, datetime
 
 class MouseLogger(object):
+    CLICK = 'CLICK'
+    NO_EVENT = ''
+
     def __init__(self, trialdata):
         self.mouse_positions = list()
         self.timestamps = list()
         self.trialdata = trialdata
-        self.mouse_pointer = PointerTracker()
+        self.timer = Timer()
 
     def log_mouse(self):
-        time, pointer_x, pointer_y = self.mouse_pointer.get_timed_position()
+        time = self.timer.get_time_in_ms_since_start()
+        pointer_x, pointer_y = self.__get_pointer_position()
         self.timestamps.append(time)
-        self.mouse_positions.append(Coordinate(pointer_x, pointer_y))
+        self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
+            'event_type': self.NO_EVENT})
+
+    def __get_pointer_position(self):
+        pos_x, pos_y = pygame.mouse.get_pos()
+        return pos_x, pos_y
+
+    def log_mouseclick(self, click_event):
+        time = self.timer.get_time_in_ms_since_start()
+        pointer_x, pointer_y = click_event.pos
+        self.timestamps.append(time)
+        self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
+            'event_type': self.CLICK})
 
     def write_log(self):
         log_file = self.__fetch_log_file()
@@ -31,8 +47,13 @@ class MouseLogger(object):
         log_file.write(data)
 
     def __format_output_line(self, log_index):
-        return "%.4f\t%s\n" % (self.timestamps[log_index],
-            str(self.mouse_positions[log_index]))
+        mouse_event = self.mouse_positions[log_index]
+        output = "%.4f\t%s" % (self.timestamps[log_index],
+            str(mouse_event['pos']))
+        if mouse_event['event_type'] == self.CLICK:
+            output += '\t%s' % self.CLICK
+        output += '\n'
+        return output
 
 class Coordinate(object):
     def __init__(self, x, y):
@@ -41,19 +62,6 @@ class Coordinate(object):
 
     def __str__(self):
         return "%d\t%d" % (self.x, self.y)
-
-class PointerTracker(object):
-    def __init__(self):
-        self.display = display.Display()
-        Xscreen = self.display.screen()
-        self.root = Xscreen.root
-        self.timer = Timer()
-
-    def get_timed_position(self):
-        self.display.sync()
-        timestamp = self.timer.get_time_in_ms_since_start()
-        pointer_pos = self.root.query_pointer()._data
-        return timestamp, pointer_pos["root_x"], pointer_pos["root_y"]
 
 class Timer(object):
     def __init__(self):

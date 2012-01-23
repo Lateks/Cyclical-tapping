@@ -114,7 +114,8 @@ class ProgRunner(object):
                     self.__exit()
 
     def __exit(self):
-        print("Trial done, exiting...")
+        self.screen.draw_text("Trial done!", (0, 200, 0))
+        self.screen.draw()
         self.mouselog.write_log()
         sys.exit(0)
 

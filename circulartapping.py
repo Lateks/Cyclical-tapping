@@ -22,7 +22,7 @@ def main():
                  'target_dist': target_distance}
     mouselog = MouseLogger(trialdata)
     mouse_fps = 100
-    runner = ProgRunner(screen, mouselog, mouse_fps)
+    runner = ProgRunner(screen, mouselog, mouse_fps, 3 * num_plates)
     runner.run()
 
 class Parameters(object):
@@ -86,10 +86,12 @@ class ParameterError(Exception):
         return repr(self.value)
 
 class ProgRunner(object):
-    def __init__(self, screen, mouselogger, log_fps):
+    def __init__(self, screen, mouselogger, log_fps, trial_length_in_clicks):
         self.screen = screen
         self.mouselog = mouselogger
         self.logger_sleep_time = 1.0/log_fps
+        self.trial_length = trial_length_in_clicks
+        self.clicks = 0
 
     def run(self):
         self.screen.draw()
@@ -104,10 +106,20 @@ class ProgRunner(object):
     def __handle_pygame_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.mouselog.write_log()
-                sys.exit(0)
+                self.__exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.mouselog.log_mouseclick(event)
+                self.clicks += 1
+                if self.__trial_done():
+                    self.__exit()
+
+    def __exit(self):
+        print("Trial done, exiting...")
+        self.mouselog.write_log()
+        sys.exit(0)
+
+    def __trial_done(self):
+        return self.clicks >= self.trial_length
 
 if __name__ == '__main__':
     main()

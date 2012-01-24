@@ -1,5 +1,4 @@
-import pygame
-import os, time, datetime
+import pygame, os, time, datetime, codecs
 
 class MouseLogger(object):
     CLICK = 'CLICK'
@@ -100,7 +99,7 @@ class LogFileHandler(object):
 
     def __get_file_for_writing(self, filename):
         try:
-            file = open(filename, "w")
+            file = codecs.open(filename, "w", "utf-8")
             return file
         except IOError as (errno, strerror):
             raise LogFileError("Could not open file %s." % filename + \

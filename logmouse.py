@@ -42,8 +42,9 @@ class MouseLogger(object):
         return self.log_file_handler.get_logfile()
 
     def __write_trialdata(self, log_file):
-        data = "# Target width = %d\n" % (self.trialdata['target_width']) + \
-               "# Target distance = %d\n\n" % (self.trialdata['target_dist'])
+        data = '# Subject name: %s\n' % (self.trialdata['subject_name']) + \
+               '# Target width: %d\n' % (self.trialdata['target_width']) + \
+               '# Target distance: %d\n\n' % (self.trialdata['target_dist'])
         log_file.write(data)
 
     def __format_output_line(self, log_index):

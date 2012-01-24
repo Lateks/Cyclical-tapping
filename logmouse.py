@@ -11,7 +11,7 @@ class MouseLogger(object):
         self.timer = Timer()
 
     def log_mouse(self):
-        time = self.timer.get_time_in_ms_since_start()
+        time = self.timer.get_time_in_seconds_since_start()
         pointer_x, pointer_y = self.__get_pointer_position()
         self.timestamps.append(time)
         self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
@@ -22,7 +22,7 @@ class MouseLogger(object):
         return pos_x, pos_y
 
     def log_mouseclick(self, click_event):
-        time = self.timer.get_time_in_ms_since_start()
+        time = self.timer.get_time_in_seconds_since_start()
         pointer_x, pointer_y = click_event.pos
         self.timestamps.append(time)
         self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
@@ -67,7 +67,7 @@ class Timer(object):
     def __init__(self):
         self.started = False
 
-    def get_time_in_ms_since_start(self):
+    def get_time_in_seconds_since_start(self):
         current_time = time.time()
         if not self.started:
             self.start_time = current_time

@@ -1,14 +1,14 @@
 from math import floor, ceil, sin, cos, radians, sqrt
 
-class CircleOfPlates(object):
-    def __init__(self, circle_radius, circle_midpoint, number_of_plates):
+class CircleCircumference(object):
+    def __init__(self, circle_radius, circle_midpoint, number_of_points):
         self.circle_radius = circle_radius
-        self.number_of_plates = number_of_plates
+        self.number_of_points = number_of_points
         self.mid_x, self.mid_y = circle_midpoint
         self.__initialize_plate_positions()
 
     def __initialize_plate_positions(self):
-        angles = Trig.circle_central_angles(self.number_of_plates)
+        angles = Trig.circle_central_angles(self.number_of_points)
         self.positions = map(self.__position, angles)
 
     def __position(self, angle):
@@ -27,8 +27,8 @@ class CircleOfPlates(object):
 
     def get_object_distance(self):
         first_pos = self.__position(0)
-        angle = int(ceil(self.number_of_plates / 2.0)) * \
-                Trig.divide_circle_by(self.number_of_plates)
+        angle = int(ceil(self.number_of_points / 2.0)) * \
+                Trig.divide_circle_by(self.number_of_points)
         second_pos = self.__position(angle)
         return Trig.euclidean_distance(first_pos, second_pos)
 

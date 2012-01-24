@@ -1,6 +1,6 @@
 import unittest
 from math import radians, degrees
-from geometry import CircleOfPlates, Trig
+from geometry import CircleCircumference, Trig
 
 class TrigCircleCentralAngleTest(unittest.TestCase):
     def test_divide_into_4(self):
@@ -15,10 +15,10 @@ class TrigCircleCentralAngleTest(unittest.TestCase):
         expected = list([0, 40, 80, 120, 160, 200, 240, 280, 320])
         self.assertEqual(expected, angles)
 
-class CircleOf4Plates(unittest.TestCase):
+class FourPointsOnTheCircumference(unittest.TestCase):
     def setUp(self):
         self.width, self.height = 640, 640
-        self.circle = CircleOfPlates(270, (self.width/2, self.height/2), 4)
+        self.circle = CircleCircumference(270, (self.width/2, self.height/2), 4)
 
     def test_number_of_positions(self):
         positions = self.circle.positions
@@ -33,11 +33,10 @@ class CircleOf4Plates(unittest.TestCase):
     def test_object_distance(self):
         self.assertEqual(540, self.circle.get_object_distance())
 
-class CircleOf9Plates(unittest.TestCase):
+class NinePointsOnTheCircumference(unittest.TestCase):
     def setUp(self):
-        self.height = 600
-        self.width = 1000
-        self.circle = CircleOfPlates(250, (self.width/2, self.height/2), 9)
+        self.width, self.height = 1000, 600
+        self.circle = CircleCircumference(250, (self.width/2, self.height/2), 9)
 
     def test_number_of_positions(self):
         positions = self.circle.positions

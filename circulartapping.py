@@ -1,6 +1,6 @@
 import sys, pygame, time
 from math import floor
-from geometry import CircleOfPlates
+from geometry import CircleCircumference
 from screen import PygameDisplayWindow
 from logmouse import MouseLogger
 
@@ -14,7 +14,7 @@ def main():
 
     circle_radius = int(floor((height - 2 * plate_radius) / 2))
     circle_midpoint = width / 2, height / 2
-    plate_circle = CircleOfPlates(circle_radius, circle_midpoint, num_plates)
+    plate_circle = CircleCircumference(circle_radius, circle_midpoint, num_plates)
 
     screensize = width, height
     screen = PygameDisplayWindow(screensize)

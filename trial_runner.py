@@ -43,8 +43,10 @@ class TrialRunner(object):
     def run(self):
         self.screen.draw()
         self.running = True
+        self.logging = False
         while self.running:
-            self.__log_mouse()
+            if self.logging:
+                self.__log_mouse()
             self.__handle_pygame_events()
 
     def __log_mouse(self):
@@ -61,11 +63,17 @@ class TrialRunner(object):
                 self.__exit()
                 return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self.mouselog.log_mouseclick(event)
-                self.clicks += 1
+                self.__log_mouseclick(event)
                 if self.__trial_done():
                     self.__exit()
                     return
+
+    def __log_mouseclick(self, event):
+        if self.logging:
+            self.mouselog.log_mouseclick(event)
+        else:
+            self.logging = True
+        self.clicks += 1
 
     def __exit(self):
         self.running = False

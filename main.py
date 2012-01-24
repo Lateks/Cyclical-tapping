@@ -1,13 +1,17 @@
-from Tkinter import *
 import sys
+from Tkinter import *
+from trial_runner import TrialRunner
+
+def main():
+    menu = MainMenu()
+    menu.run()
 
 class MainMenu(object):
-    def __init__(self, starter_fun):
+    def __init__(self):
         self.root = Tk()
         self.root.title('Trial launcher')
         self.frame = Frame(self.root).pack()
         self.x_pad = 40
-        self.start_trial = starter_fun
 
         self.__add_name_field()
         self.__add_start_button()
@@ -28,7 +32,8 @@ class MainMenu(object):
             dialog = Dialog(self.root, "Give subject name before proceeding")
             dialog.show()
         else:
-            self.start_trial(username)
+            runner = TrialRunner(username)
+            runner.run()
 
     def __add_exit_button(self):
         self.exit_button = Button(self.frame, text = 'Exit', command = self.__exit)
@@ -56,3 +61,6 @@ class Dialog(object):
 
     def show(self):
         self.parent.wait_window(self.top)
+
+if __name__ == '__main__':
+    main()

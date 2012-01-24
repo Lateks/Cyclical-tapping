@@ -4,15 +4,6 @@ from geometry import CircleCircumference
 from screen import PygameDisplayWindow
 from logmouse import MouseLogger
 from parameter_parser import Parameters
-from mainmenu import MainMenu
-
-def main():
-    menu = MainMenu(run_trial)
-    menu.run()
-
-def run_trial(subject_name):
-    runner = TrialRunner(subject_name)
-    runner.run()
 
 class TrialRunner(object):
     def __init__(self, subject_name):
@@ -77,6 +68,3 @@ class TrialRunner(object):
 
     def __trial_done(self):
         return self.clicks >= self.trial_length
-
-if __name__ == '__main__':
-    main()

@@ -56,6 +56,10 @@ class TrialRunner(object):
             if event.type == pygame.QUIT:
                 self.__exit()
                 return
+            if (event.type == pygame.KEYUP or event.type == pygame.KEYDOWN) and \
+                event.key == pygame.K_ESCAPE:
+                self.__exit()
+                return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.mouselog.log_mouseclick(event)
                 self.clicks += 1

@@ -1,15 +1,11 @@
 from math import floor, ceil, sin, cos, radians, sqrt
 
 class CircleOfPlates(object):
-    def __init__(self, screen_width, plate_radius, number_of_plates):
-        self.plate_radius = plate_radius
-        self.circle_radius = self.__get_circle_radius(screen_width)
-        self.circle_midpoint = plate_radius + self.circle_radius
+    def __init__(self, circle_radius, circle_midpoint, number_of_plates):
+        self.circle_radius = circle_radius
         self.number_of_plates = number_of_plates
+        self.mid_x, self.mid_y = circle_midpoint
         self.__initialize_plate_positions()
-
-    def __get_circle_radius(self, screen_width):
-        return int(floor((screen_width - 2 * self.plate_radius) / 2))
 
     def __initialize_plate_positions(self):
         angles = Trig.circle_central_angles(self.number_of_plates)
@@ -17,11 +13,13 @@ class CircleOfPlates(object):
 
     def __position(self, angle):
         if angle == 0:
-            return self.circle_midpoint, self.plate_radius
+            return self.mid_x, self.__vertical_offset()
         adjacent = Trig.adjacent_edge(angle, self.circle_radius)
         opposite = Trig.opposite_edge(angle, self.circle_radius)
-        return (self.circle_midpoint + adjacent,
-            self.circle_midpoint - opposite)
+        return (self.mid_x + adjacent, self.mid_y - opposite)
+
+    def __vertical_offset(self):
+        return self.mid_y - self.circle_radius
 
     def __iter__(self):
         for pos in self.positions:

@@ -17,14 +17,8 @@ class TrigCircleCentralAngleTest(unittest.TestCase):
 
 class CircleOf4Plates(unittest.TestCase):
     def setUp(self):
-        self.width = 640
-        self.circle = CircleOfPlates(self.width, 50, 4)
-
-    def test_circle_radius(self):
-        self.assertEqual(270, self.circle.circle_radius)
-
-    def test_circle_midpoint(self):
-        self.assertEqual(320, self.circle.circle_midpoint)
+        self.width, self.height = 640, 640
+        self.circle = CircleOfPlates(270, (self.width/2, self.height/2), 4)
 
     def test_number_of_positions(self):
         positions = self.circle.positions
@@ -41,14 +35,9 @@ class CircleOf4Plates(unittest.TestCase):
 
 class CircleOf9Plates(unittest.TestCase):
     def setUp(self):
-        self.width = 600
-        self.circle = CircleOfPlates(self.width, 50, 9)
-
-    def test_circle_radius(self):
-        self.assertEqual(250, self.circle.circle_radius)
-
-    def test_circle_midpoint(self):
-        self.assertEqual(300, self.circle.circle_midpoint)
+        self.height = 600
+        self.width = 1000
+        self.circle = CircleOfPlates(250, (self.width/2, self.height/2), 9)
 
     def test_number_of_positions(self):
         positions = self.circle.positions

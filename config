@@ -1,6 +1,6 @@
 # Example config file. Parameters should always be given in this order.
-# screen width (will be equal to height)
-640
+# screen width and height
+1000 640
 # plate radius
 50
 # number of plates

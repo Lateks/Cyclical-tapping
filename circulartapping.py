@@ -1,4 +1,5 @@
 import sys, pygame, time
+from math import floor
 from geometry import CircleOfPlates
 from screen import PygameDisplayWindow
 from logmouse import MouseLogger
@@ -11,7 +12,9 @@ def main():
     num_plates = params.num_plates
     plate_color = params.plate_color
 
-    plate_circle = CircleOfPlates(width, plate_radius, num_plates)
+    circle_radius = int(floor((height - 2 * plate_radius) / 2))
+    circle_midpoint = width / 2, height / 2
+    plate_circle = CircleOfPlates(circle_radius, circle_midpoint, num_plates)
 
     screensize = width, height
     screen = PygameDisplayWindow(screensize)
@@ -26,7 +29,7 @@ def main():
     runner.run()
 
 class Parameters(object):
-    width = height = 640
+    width, height = 640, 640
     plate_radius = 50
     num_plates = 9
     plate_color = 244, 238, 224
@@ -72,12 +75,12 @@ class Parameters(object):
             raise ParameterError("Non-numeric parameters given.")
 
     def __unlist_parameters(self, parameters):
-        if len(parameters) < 6:
+        if len(parameters) < 7:
             raise ParameterError("Parameters missing.")
-        self.width = self.height = parameters[0]
-        self.plate_radius = parameters[1]
-        self.num_plates = parameters[2]
-        self.plate_color = parameters[3], parameters[4], parameters[5]
+        self.width, self.height = parameters[0], parameters[1]
+        self.plate_radius = parameters[2]
+        self.num_plates = parameters[3]
+        self.plate_color = parameters[4], parameters[5], parameters[6]
 
 class ParameterError(Exception):
     def __init__(self, value):

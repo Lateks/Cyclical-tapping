@@ -19,6 +19,8 @@ class MainMenu(object):
         self.__add_start_button()
         self.__add_exit_button()
 
+        self.trial_runner = TrialRunner()
+
     def __add_name_field(self):
         Label(self.frame, text='Enter subject name:').pack(padx = self.x_pad, pady = 5)
         self.name_field = Entry(self.frame, width = 10)
@@ -39,11 +41,8 @@ class MainMenu(object):
             dialog = Dialog(self.root, "Give subject name before proceeding")
             dialog.show()
         else:
-            self.__run_trial()
-
-    def __run_trial(self):
-        runner = TrialRunner(self.username)
-        runner.run()
+            self.trial_runner.new_trial(self.username)
+            self.trial_runner.run()
 
     def __add_exit_button(self):
         self.exit_button = Button(self.frame, text = 'Exit', command = self.__exit)

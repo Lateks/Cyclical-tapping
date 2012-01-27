@@ -1,9 +1,18 @@
-# Example config file. Parameters should always be given in this order.
-# screen width and height
-1000 640
-# plate radius
-50
-# number of plates
+# Example config file.
+# Parameters should always be given in this order.
+# Lines starting with a hash symbol are comments.
+# Newlines separate parameter types!
+#
+# Constants:
+# - screen width and height
+1280 800
+# - number of plates
 9
-# plate color (RGB)
+# - plate color (RGB)
 244 238 224
+# Parameters for different test setups:
+# - values for the big circle diameter
+#  (closely related to target distance D)
+650 600
+# - values for target width/diameter (W)
+100 150

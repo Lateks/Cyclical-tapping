@@ -1,10 +1,10 @@
 import pygame
 
 class PygameDisplayWindow(object):
-    def __init__(self, screensize):
+    def __init__(self, screensize, trial_num):
         pygame.init()
         self.window = pygame.display.set_mode(screensize)
-        pygame.display.set_caption('Trial')
+        pygame.display.set_caption('Trial %d' % trial_num)
         x, y = screensize
         self.mid_x = x / 2
         self.mid_y = y / 2

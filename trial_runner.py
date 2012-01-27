@@ -8,9 +8,11 @@ from parameter_parser import Parameters
 class TrialRunner(object):
     def __init__(self):
         self.params = Parameters()
+        self.trials = 0
 
     def new_trial(self, subject_name):
         self.subject_name = subject_name
+        self.trials += 1
         self.circle_radius, self.target_radius = self.params.get_test_setup()
 
         self.__init_screen()
@@ -23,7 +25,7 @@ class TrialRunner(object):
 
     def __init_screen(self):
         screensize = self.params.get_screensize()
-        self.screen = PygameDisplayWindow(screensize)
+        self.screen = PygameDisplayWindow(screensize, self.trials)
 
     def __calculate_circle(self):
         width, height = self.params.get_screensize()
@@ -83,7 +85,7 @@ class TrialRunner(object):
         self.screen.draw_text("Trial done!", (0, 200, 0))
         self.screen.draw()
         self.mouselog.write_log()
-        time.sleep(2)
+        time.sleep(1)
         pygame.display.quit()
 
     def __trial_done(self):

@@ -20,9 +20,9 @@ class MainMenu(object):
         self.__add_exit_button()
 
     def __add_name_field(self):
-        Label(self.frame, text='Enter subject name:').pack(padx = self.x_pad)
+        Label(self.frame, text='Enter subject name:').pack(padx = self.x_pad, pady = 5)
         self.name_field = Entry(self.frame, width = 10)
-        self.name_field.pack(padx = self.x_pad)
+        self.name_field.pack(padx = self.x_pad, pady = 5)
 
     def __bind_keys(self):
         self.root.bind('<Return>', self.__try_start)

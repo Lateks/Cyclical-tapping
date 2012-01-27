@@ -94,6 +94,7 @@ class LogFileHandler(object):
     def __make_log_name(self):
         timestamp = str(datetime.datetime.now())
         timestamp = timestamp.replace(' ', '-')
+        timestamp = timestamp.replace(':', '.')
         logname = timestamp + '.log'
         return logname
 

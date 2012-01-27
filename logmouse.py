@@ -102,8 +102,8 @@ class LogFileHandler(object):
             file = codecs.open(filename, "w", "utf-8")
             return file
         except IOError as (errno, strerror):
-            raise LogFileError("Could not open file %s." % filename + \
-                  "Error %d: %s" % (errno, strerror))
+            raise LogFileError(
+                "Could not open file %s.\nError %d:\n%s" % (filename, errno, strerror))
 
 class LogFileError(Exception):
     def __init__(self):

@@ -40,6 +40,7 @@ class MainMenu(object):
         if self.username == '':
             dialog = Dialog(self.root, "Give subject name before proceeding")
             dialog.show()
+            self.root.focus_set()
         else:
             self.trial_runner.new_trial(self.username)
             self.trial_runner.run()
@@ -71,7 +72,6 @@ class Dialog(object):
 
     def __exit(self):
         self.top.destroy()
-        self.parent.focus_set()
 
     def show(self):
         self.top.focus_set()

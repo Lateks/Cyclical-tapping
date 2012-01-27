@@ -1,4 +1,4 @@
-import pygame, os, time, datetime, codecs
+import pygame, os, time, datetime, codecs, sys
 
 class MouseLogger(object):
     CLICK = 'CLICK'
@@ -9,6 +9,8 @@ class MouseLogger(object):
         self.timestamps = list()
         self.trialdata = trialdata
         self.timer = Timer()
+        self.nl = '\r\n' if (sys.platform == 'win32' or
+            sys.platform == 'cygwin') else '\n'
 
     def log_mouse(self):
         time = self.timer.get_time_in_seconds_since_start()
@@ -41,9 +43,9 @@ class MouseLogger(object):
         return self.log_file_handler.get_logfile()
 
     def __write_trialdata(self, log_file):
-        data = '# Subject name: %s\n' % (self.trialdata['subject_name']) + \
-               '# Target width: %d\n' % (self.trialdata['target_width']) + \
-               '# Target distance: %d\n\n' % (self.trialdata['target_dist'])
+        data = '# Subject name: %s%s' % (self.trialdata['subject_name'], self.nl) + \
+               '# Target width: %d%s' % (self.trialdata['target_width'], self.nl) + \
+               '# Target distance: %d%s%s' % (self.trialdata['target_dist'], self.nl, self.nl)
         log_file.write(data)
 
     def __format_output_line(self, log_index):
@@ -52,7 +54,7 @@ class MouseLogger(object):
             str(mouse_event['pos']))
         if mouse_event['event_type'] == self.CLICK:
             output += '\t%s' % self.CLICK
-        output += '\n'
+        output += self.nl
         return output
 
 class Coordinate(object):
@@ -94,7 +96,8 @@ class LogFileHandler(object):
     def __make_log_name(self):
         timestamp = str(datetime.datetime.now())
         timestamp = timestamp.replace(' ', '-')
-        timestamp = timestamp.replace(':', '.')
+        if sys.platform == 'win32' or sys.platform == 'cygwin':
+            timestamp = timestamp.replace(':', '.')
         logname = timestamp + '.log'
         return logname
 

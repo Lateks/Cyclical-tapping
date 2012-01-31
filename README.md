@@ -23,7 +23,7 @@ A trial with nine targets always ends after 27 left mouseclicks (three rounds ar
 ### Index of difficulty values covered by the default test setups
 
 | D / W | 100 | 80  | 60  | 40  | 20  |
-| ------|:---:|:---:|:...:|:...:|:...:|
+|:----- |:---:|:---:|:...:|:...:|:...:|
 | 700   | 3.0 | 3.3 | 3.6 | 4.2 | 5.1 |
 | 600   | 2.8 | 3.1 | 3.4 | 4.0 | 4.9 |
 | 500   | 2.6 | 2.8 | 3.2 | 3.7 | 4.7 |

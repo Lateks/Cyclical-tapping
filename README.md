@@ -20,15 +20,17 @@ Test setups are pre-defined in `config`. The comment lines in the `config` file 
 
 A trial with nine targets always ends after 27 left mouseclicks (three rounds are done). Logging only starts after the first mouseclick is registered.
 
-### Index of difficulty values covered by the default test setups
+.Index of difficulty values covered by the default test setups:
 
-| D / W | 100 | 80  | 60  | 40  | 20  |
-| ------|:---:|:---:|:...:|:...:|:...:|
-| 700   | 3.0 | 3.3 | 3.6 | 4.2 | 5.1 |
-| 600   | 2.8 | 3.1 | 3.4 | 4.0 | 4.9 |
-| 500   | 2.6 | 2.8 | 3.2 | 3.7 | 4.7 |
-| 400   | 2.3 | 2.6 | 2.9 | 3.4 | 4.4 |
-| 300   | 2.0 | 2.2 | 2.5 | 3.0 | 4.0 |
+[cols="h,5*",options="header",width="50%"]
+|======================================
+| D / W | 100 | 80  | 60  | 40  | 20
+| 700   | 3.0 | 3.3 | 3.6 | 4.2 | 5.1
+| 600   | 2.8 | 3.1 | 3.4 | 4.0 | 4.9
+| 500   | 2.6 | 2.8 | 3.2 | 3.7 | 4.7
+| 400   | 2.3 | 2.6 | 2.9 | 3.4 | 4.4
+| 300   | 2.0 | 2.2 | 2.5 | 3.0 | 4.0
+|======================================
 
 (D values approximate.)
 

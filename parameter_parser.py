@@ -11,7 +11,7 @@ class Parameters(object):
 
     def __shuffle_setups(self):
         shuffle(self.test_setups)
-        self.random_test_setup = self.test_setups.__iter__()
+        self.random_test_setup = iter(self.test_setups)
 
     def get_screensize(self):
         return self.params.width, self.params.height

@@ -13,6 +13,6 @@
 # Parameters for different test setups:
 # - values for the big circle diameter
 #  (closely related to target distance D)
-650 600 550 500 450 400
+700 600 500 400
 # - values for target width/diameter (W)
-120 100 80 60 40
+100 80 60 40 20

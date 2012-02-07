@@ -8,7 +8,6 @@ from parameter_parser import Parameters
 class TrialRunner(object):
     """Sets up trial environments and handles screens, mouseloggers
     and everything else related to running trials."""
-    HILIGHT_COLOR = (255, 165, 0)
 
     def __init__(self):
         self.params = Parameters()
@@ -115,7 +114,8 @@ class TrialRunner(object):
     def __hilight_next_target(self):
         """Highlights next target and unhighlights the previous one."""
         target = self.__get_next_target()
-        self.screen.draw_circles([target], self.target_radius, self.HILIGHT_COLOR)
+        self.screen.draw_circles([target], self.target_radius,
+            self.params.get_hilight_color())
         if self.prevtarget:
             self.screen.draw_circles([self.prevtarget], self.target_radius,
                 self.params.get_target_color())

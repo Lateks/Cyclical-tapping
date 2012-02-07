@@ -22,6 +22,9 @@ class Parameters(object):
     def get_target_color(self):
         return self.params.target_color
 
+    def get_hilight_color(self):
+        return self.params.hilight_color
+
     def get_test_setup(self):
         try:
             return self.random_test_setup.next()
@@ -35,6 +38,7 @@ class ParameterReader(object):
     circle_radius = list([270])
     num_targets = 9
     target_color = 244, 238, 224
+    hilight_color = 255, 165, 0
 
     def __init__(self):
         try:
@@ -55,7 +59,7 @@ class ParameterReader(object):
         for line in self.config_file:
             if self.__line_is_not_comment(line):
                 tokens = self.__tokenize_line(line)
-                if len(constant_parameters) < 6:
+                if len(constant_parameters) < 9:
                     constant_parameters += tokens
                 elif len(circle_diams) == 0:
                     circle_diams += tokens
@@ -87,11 +91,10 @@ class ParameterReader(object):
             raise ParameterError("Non-numeric parameters given.")
 
     def __unlist_parameters(self, parameters):
-        if len(parameters) < 6:
-            raise ParameterError("Parameters missing.")
         self.width, self.height = parameters[0:2]
         self.num_targets = parameters[2]
         self.target_color = parameters[3:6]
+        self.hilight_color = parameters[6:9]
 
 class ParameterError(Exception):
     def __init__(self, value):

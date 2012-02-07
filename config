@@ -9,8 +9,10 @@
 1280 800
 # - number of targets
 9
-# - plate color (RGB)
+# - target color (RGB)
 244 238 224
+# - highlight color (RGB)
+255 165 0
 # Parameters for different test setups:
 # - values for the big circle diameter
 #  (target distance D is around circle diameter

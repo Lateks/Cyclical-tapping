@@ -6,10 +6,12 @@ All targets in the trial are drawn on screen at the beginning of the trial, no t
 
 (Written for a research project at Helsinki Institute for Information Technology.)
 
-## Requirements
+## Requirements and usage
 - Python 2.7
 - installed libraries: Tkinter, pygame
 - should work on Linux, Windows and OS X (Ubuntu and Windows 7 tested)
+
+Usage: run `main.py` (e.g. `python main.py` on Linux)
 
 ## Test setups
 
@@ -78,27 +80,28 @@ A trial with nine targets always ends after 27 left mouseclicks (three rounds ar
 
 ## Log files
 
-Log files will be written into a subdirectory named `logs`. Test setup data and the name of the test subject (filled in at the startup prompt) are logged at the beginning of the file. The rest of the lines consist of a timestamp (in seconds after the start of logging) and x and y coordinates of the mouse cursor. Mouseclick lines are otherwise identical but have a `CLICK` identifier at the end of the line.
+Log files will be written into a subdirectory named `logs`. Test setup data and the name of the test subject (filled in at the startup prompt) are logged at the beginning of the file. The rest of the lines consist of a timestamp (in seconds after the start of logging), x and y coordinates of the mouse cursor and x and y coordinates of the center of the current target. Current target gets updated after a mouseclick. Mouseclick lines are otherwise identical to normal position lines but have a `CLICK` identifier at the end of the line.
 
 ### Example log file
 
     # Subject name: Test Subject
-    # Target width: 80
-    # Target distance: 591
+    # Target width: 20
+    # Target distance: 689
 
-    0.0000	634	99
-    0.0102	634	99
-    0.0203	634	99
-    0.0305	634	100
-    0.0406	634	100
-    0.0508	634	100
-    0.0610	634	101
-    0.0711	634	102
-    0.0813	634	104
-    0.0915	634	106
-    0.0916	634	106	CLICK
-    0.1016	635	109
-    0.1118	635	109
+    0.0000	636	48	520	729
+    0.0102	636	48	520	729
+    0.0204	636	48	520	729
+    0.0306	635	49	520	729
+    0.0408	635	49	520	729
+    0.0510	635	49	520	729
+    ...
+    1.2612	516	731	520	729
+    1.2714	515	731	520	729
+    1.2815	515	731	520	729
+    1.2917	515	731	520	729
+    1.2918	515	731	520	729	CLICK
+    1.3019	515	731	865	132
+    1.3121	515	731	865	132
     ...
 
 ### A note on operating systems

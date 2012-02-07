@@ -25,6 +25,9 @@ class CircleCircumference(object):
         for pos in self.positions:
             yield pos
 
+    def get_position_at(self, index):
+        return self.positions[index]
+
     def get_object_distance(self):
         first_pos = self.__position(0)
         angle = int(ceil(self.number_of_points / 2.0)) * \

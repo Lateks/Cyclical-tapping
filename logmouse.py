@@ -11,13 +11,17 @@ class MouseLogger(object):
         self.timer = Timer()
         self.nl = '\r\n' if (sys.platform == 'win32' or
             sys.platform == 'cygwin') else '\n'
+        self.target = None
+
+    def set_current_target(self, (x, y)):
+        self.target = Coordinate(x, y)
 
     def log_mouse(self):
         time = self.timer.get_time_in_seconds_since_start()
         pointer_x, pointer_y = self.__get_pointer_position()
         self.timestamps.append(time)
         self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
-            'event_type': self.NO_EVENT})
+            'event_type': self.NO_EVENT, 'target': self.target})
 
     def __get_pointer_position(self):
         pos_x, pos_y = pygame.mouse.get_pos()
@@ -28,7 +32,7 @@ class MouseLogger(object):
         pointer_x, pointer_y = click_event.pos
         self.timestamps.append(time)
         self.mouse_positions.append({'pos': Coordinate(pointer_x, pointer_y),
-            'event_type': self.CLICK})
+            'event_type': self.CLICK, 'target': self.target})
 
     def write_log(self):
         log_file = self.__fetch_log_file()
@@ -50,8 +54,8 @@ class MouseLogger(object):
 
     def __format_output_line(self, log_index):
         mouse_event = self.mouse_positions[log_index]
-        output = "%.4f\t%s" % (self.timestamps[log_index],
-            str(mouse_event['pos']))
+        output = "%.4f\t%s\t%s" % (self.timestamps[log_index],
+            str(mouse_event['pos']), str(mouse_event['target']))
         if mouse_event['event_type'] == self.CLICK:
             output += '\t%s' % self.CLICK
         output += self.nl

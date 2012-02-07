@@ -6,17 +6,23 @@ from logmouse import MouseLogger
 from parameter_parser import Parameters
 
 class TrialRunner(object):
+    """Sets up trial environments and handles screens, mouseloggers
+    and everything else related to running trials."""
+
     def __init__(self):
         self.params = Parameters()
         self.trials = 0
+        self.rounds = 3
 
     def new_trial(self, subject_name):
+        """Sets up a new trial (must be called before run)"""
         self.subject_name = subject_name
         self.trials += 1
         self.circle_radius, self.target_radius = self.params.get_test_setup()
 
         self.__init_screen()
         self.__calculate_circle()
+        self.__calculate_targets()
         self.screen.draw_circles(self.circle, self.target_radius,
             self.params.get_target_color())
 
@@ -28,10 +34,23 @@ class TrialRunner(object):
         self.screen = PygameDisplayWindow(screensize, self.trials)
 
     def __calculate_circle(self):
+        """Calculates target positions on the circle perimeter"""
         width, height = self.params.get_screensize()
         circle_midpoint = width / 2, height / 2
         self.circle = CircleCircumference(self.circle_radius, circle_midpoint,
             self.params.get_number_of_targets())
+
+    def __calculate_targets(self):
+        """Calculates the indices of successive targets"""
+        num_targets = self.params.get_number_of_targets()
+        half = num_targets / 2
+        current = half + 1
+        self.targets = list()
+        while current < num_targets:
+            self.targets.append(current)
+            self.targets.append(current - half)
+            current = current + 1
+        self.targets.append(0)
 
     def __init_mouselogger(self):
         trialdata = {'target_width': 2 * self.target_radius,
@@ -42,10 +61,11 @@ class TrialRunner(object):
         self.logger_sleep_time = 1.0/log_fps
 
     def __init_click_counter(self):
-        self.trial_length = 3 * self.params.get_number_of_targets()
+        self.trial_length = self.rounds * self.params.get_number_of_targets()
         self.clicks = 0
 
     def run(self):
+        "Runs a trial with the current setup"
         self.screen.draw()
         self.running = True
         self.logging = False
@@ -55,6 +75,9 @@ class TrialRunner(object):
             self.__handle_pygame_events()
 
     def __log_mouse(self):
+        """Sends a command to mouse logger to log mouse position.
+        A brief sleep time is included before logging the mouse
+        to keep the fps close to constant."""
         time.sleep(self.logger_sleep_time)
         self.mouselog.log_mouse()
 
@@ -69,18 +92,28 @@ class TrialRunner(object):
                 return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.__log_mouseclick(event)
+                self.__set_new_target()
                 if self.__trial_done():
                     self.__exit()
                     return
 
     def __log_mouseclick(self, event):
+        "Logs a mouse click or starts logging if not already started."
         if self.logging:
             self.mouselog.log_mouseclick(event)
         else:
             self.logging = True
         self.clicks += 1
 
+    def __set_new_target(self):
+        """Finds the next target in the target circle and sends it
+        to the mouse logger."""
+        target_i = self.targets[(self.clicks - 1) % self.params.get_number_of_targets()]
+        target = self.circle.get_position_at(target_i)
+        self.mouselog.set_current_target(target)
+
     def __exit(self):
+        "Writes log to file and does a clean exit."
         self.running = False
         self.screen.draw_text("Trial done!", (0, 200, 0))
         self.screen.draw()
@@ -89,4 +122,6 @@ class TrialRunner(object):
         pygame.display.quit()
 
     def __trial_done(self):
+        """Checks if the trial is done (a certain number of mouseclicks
+        must have been observed)."""
         return self.clicks >= self.trial_length

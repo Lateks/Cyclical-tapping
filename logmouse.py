@@ -14,9 +14,11 @@ class MouseLogger(object):
         self.target = None
 
     def set_current_target(self, (x, y)):
+        """Sets the coordinates of the current trial target for logging."""
         self.target = Coordinate(x, y)
 
     def log_mouse(self):
+        """Logs the time and mouse cursor position."""
         time = self.timer.get_time_in_seconds_since_start()
         pointer_x, pointer_y = self.__get_pointer_position()
         self.timestamps.append(time)
@@ -28,6 +30,8 @@ class MouseLogger(object):
         return pos_x, pos_y
 
     def log_mouseclick(self, click_event):
+        """Logs the current time and the mouse cursor position
+        given in the click event object with a click identifier."""
         time = self.timer.get_time_in_seconds_since_start()
         pointer_x, pointer_y = click_event.pos
         self.timestamps.append(time)
@@ -35,6 +39,7 @@ class MouseLogger(object):
             'event_type': self.CLICK, 'target': self.target})
 
     def write_log(self):
+        """Writes the log to a file."""
         log_file = self.__fetch_log_file()
         self.__write_trialdata(log_file)
         for i in range(0, len(self.mouse_positions)):
@@ -74,6 +79,8 @@ class Timer(object):
         self.started = False
 
     def get_time_in_seconds_since_start(self):
+        """Starts the timer if not already started and returns
+        the time since start."""
         current_time = time.time()
         if not self.started:
             self.start_time = current_time
@@ -81,10 +88,13 @@ class Timer(object):
         return current_time - self.start_time
 
 class LogFileHandler(object):
+    """A class for handling log file name generation and
+    file opening."""
     def __init__(self):
         self.log_dir = "logs"
 
     def get_logfile(self):
+        """Opens and returns a file object."""
         self.__ensure_log_directory_exists()
         log_file_name = self.__make_log_name()
         log_file = self.__get_file_for_writing(
@@ -98,6 +108,8 @@ class LogFileHandler(object):
             pass
 
     def __make_log_name(self):
+        """Generates a log name of the form <timestamp>.log.
+        Handles OS specific filename limitations."""
         timestamp = str(datetime.datetime.now())
         timestamp = timestamp.replace(' ', '-')
         if sys.platform == 'win32' or sys.platform == 'cygwin':

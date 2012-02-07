@@ -8,6 +8,7 @@ from parameter_parser import Parameters
 class TrialRunner(object):
     """Sets up trial environments and handles screens, mouseloggers
     and everything else related to running trials."""
+    HILIGHT_COLOR = (255, 165, 0)
 
     def __init__(self):
         self.params = Parameters()
@@ -45,12 +46,11 @@ class TrialRunner(object):
         num_targets = self.params.get_number_of_targets()
         half = num_targets / 2
         current = half + 1
-        self.targets = list()
+        self.targets = list([0])
         while current < num_targets:
             self.targets.append(current)
             self.targets.append(current - half)
             current = current + 1
-        self.targets.append(0)
 
     def __init_mouselogger(self):
         trialdata = {'target_width': 2 * self.target_radius,
@@ -66,9 +66,10 @@ class TrialRunner(object):
 
     def run(self):
         "Runs a trial with the current setup"
-        self.screen.draw()
         self.running = True
         self.logging = False
+        self.prevtarget = None
+        self.__hilight_next_target()
         while self.running:
             if self.logging:
                 self.__log_mouse()
@@ -92,10 +93,11 @@ class TrialRunner(object):
                 return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.__log_mouseclick(event)
-                self.__set_new_target()
                 if self.__trial_done():
                     self.__exit()
                     return
+                self.__set_new_target()
+                self.__hilight_next_target()
 
     def __log_mouseclick(self, event):
         "Logs a mouse click or starts logging if not already started."
@@ -106,11 +108,24 @@ class TrialRunner(object):
         self.clicks += 1
 
     def __set_new_target(self):
-        """Finds the next target in the target circle and sends it
-        to the mouse logger."""
-        target_i = self.targets[(self.clicks - 1) % self.params.get_number_of_targets()]
-        target = self.circle.get_position_at(target_i)
+        """Sends the next target position to the mouse logger."""
+        target = self.__get_next_target()
         self.mouselog.set_current_target(target)
+
+    def __hilight_next_target(self):
+        """Highlights next target and unhighlights the previous one."""
+        target = self.__get_next_target()
+        self.screen.draw_circles([target], self.target_radius, self.HILIGHT_COLOR)
+        if self.prevtarget:
+            self.screen.draw_circles([self.prevtarget], self.target_radius,
+                self.params.get_target_color())
+        self.screen.draw()
+        self.prevtarget = target
+
+    def __get_next_target(self):
+        """Finds the position of the next target and returns it."""
+        target_i = self.targets[self.clicks % self.params.get_number_of_targets()]
+        return self.circle.get_position_at(target_i)
 
     def __exit(self):
         "Writes log to file and does a clean exit."

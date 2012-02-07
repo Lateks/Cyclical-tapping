@@ -2,7 +2,7 @@
 
 This is a simple test environment for logging cyclical pointing task trials, as described in the ISO 9241-9 standard. The provided configuration file sets up a reciprocal (cyclical) task with nine targets. Mouse movement and clicks as well as information about the used (randomized) test setup are logged in a timestamped, uniquely named log file.
 
-All targets in the trial are drawn on screen at the beginning of the trial, no target highlighting is implemented.
+All targets in the trial are drawn on screen at the beginning of the trial. Targets are highlighted in succession. The next target always highlights after a mouseclick.
 
 (Written for a research project at Helsinki Institute for Information Technology.)
 

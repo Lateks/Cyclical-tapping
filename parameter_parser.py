@@ -33,9 +33,9 @@ class Parameters(object):
             return self.random_test_setup.next()
 
 class ParameterReader(object):
-    width, height = 640, 640
-    target_radius = list([50])
-    circle_radius = list([270])
+    width, height = 1280, 800
+    target_radius = list([50, 40, 30, 20, 10])
+    circle_radius = list([350, 300, 250, 200, 150])
     num_targets = 9
     target_color = 244, 238, 224
     hilight_color = 255, 165, 0
@@ -91,10 +91,18 @@ class ParameterReader(object):
             raise ParameterError("Non-numeric parameters given.")
 
     def __unlist_parameters(self, parameters):
+        self.__check_constant_parameters(parameters)
         self.width, self.height = parameters[0:2]
         self.num_targets = parameters[2]
         self.target_color = parameters[3:6]
         self.hilight_color = parameters[6:9]
+
+    def __check_constant_parameters(self, parameters):
+        if parameters[2] % 2 == 0 or parameters[2] == 1:
+            raise ParameterError("Number of targets must be an odd number > 1.")
+        for param in parameters[3:9]:
+            if not (param >= 0 and param <= 255):
+                raise ParameterError("%d is not a valid RGB color component value." % param)
 
 class ParameterError(Exception):
     def __init__(self, value):

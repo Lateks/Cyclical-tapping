@@ -1,5 +1,5 @@
 import sys, pygame, time
-from math import floor
+from math import ceil
 from geometry import CircleCircumference
 from screen import PygameDisplayWindow
 from logmouse import MouseLogger
@@ -43,13 +43,13 @@ class TrialRunner(object):
     def __calculate_targets(self):
         """Calculates the indices of successive targets"""
         num_targets = self.params.get_number_of_targets()
-        half = num_targets / 2
-        current = half + 1
+        halfway = int(ceil(num_targets / 2.0))
+        current = halfway
         self.targets = list([0])
         while current < num_targets:
             self.targets.append(current)
-            self.targets.append(current - half)
-            current = current + 1
+            self.targets.append(current - halfway + 1)
+            current += 1
 
     def __init_mouselogger(self):
         trialdata = {'target_width': 2 * self.target_radius,

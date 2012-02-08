@@ -7,7 +7,7 @@
 # Constants:
 # - screen width and height
 1280 800
-# - number of targets
+# - number of targets (must be an odd number > 1)
 9
 # - target color (RGB)
 244 238 224

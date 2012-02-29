@@ -54,7 +54,11 @@ class MouseLogger(object):
     def __write_trialdata(self, log_file):
         data = '# Subject name: %s%s' % (self.trialdata['subject_name'], self.nl) + \
                '# Target width: %d%s' % (self.trialdata['target_width'], self.nl) + \
-               '# Target distance: %d%s%s' % (self.trialdata['target_dist'], self.nl, self.nl)
+               '# Target distance: %d%s' % (self.trialdata['target_dist'], self.nl)
+        if (not self.trialdata['additional_info'].isspace()):
+            info = self.trialdata['additional_info'].rstrip().replace('\n', '').replace('\r', '')
+            data += '# %s%s' % (info, self.nl)
+        data += self.nl
         log_file.write(data)
 
     def __format_output_line(self, log_index):

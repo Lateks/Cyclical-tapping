@@ -14,9 +14,10 @@ class TrialRunner(object):
         self.trials = 0
         self.rounds = 3
 
-    def new_trial(self, subject_name):
+    def new_trial(self, subject_name, info):
         """Sets up a new trial (must be called before run)"""
         self.subject_name = subject_name
+        self.info = info
         self.trials += 1
         self.circle_radius, self.target_radius = self.params.get_test_setup()
 
@@ -54,7 +55,8 @@ class TrialRunner(object):
     def __init_mouselogger(self):
         trialdata = {'target_width': 2 * self.target_radius,
                      'target_dist': self.circle.get_object_distance(),
-                     'subject_name': self.subject_name}
+                     'subject_name': self.subject_name,
+                     'additional_info': self.info}
         self.mouselog = MouseLogger(trialdata)
         log_fps = 100
         self.logger_sleep_time = 1.0/log_fps

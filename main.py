@@ -15,6 +15,7 @@ class MainMenu(object):
         self.x_pad = 40
 
         self.__add_name_field()
+        self.__add_info_fied()
         self.__bind_keys()
         self.__add_start_button()
         self.__add_exit_button()
@@ -22,9 +23,17 @@ class MainMenu(object):
         self.trial_runner = TrialRunner()
 
     def __add_name_field(self):
-        Label(self.frame, text='Enter subject name:').pack(padx = self.x_pad, pady = 5)
+        self.__add_label('Enter subject name:')
         self.name_field = Entry(self.frame, width = 10)
         self.name_field.pack(padx = self.x_pad, pady = 5)
+
+    def __add_info_fied(self):
+        self.__add_label('Additional information:')
+        self.info_field = Text(self.frame, width = 20, height = 3)
+        self.info_field.pack(padx = self.x_pad, pady = 5)
+
+    def __add_label(self, text):
+        Label(self.frame, text=text).pack(padx = self.x_pad, pady = 5)
 
     def __bind_keys(self):
         self.root.bind('<Return>', self.__try_start)
@@ -42,7 +51,8 @@ class MainMenu(object):
             dialog.show()
             self.root.focus_set()
         else:
-            self.trial_runner.new_trial(self.username)
+            self.info = self.info_field.get(1.0, END)
+            self.trial_runner.new_trial(self.username, self.info)
             self.trial_runner.run()
 
     def __add_exit_button(self):

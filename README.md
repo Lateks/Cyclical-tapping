@@ -80,7 +80,7 @@ A trial with nine targets always ends after 27 left mouseclicks (three rounds ar
 
 ## Log files
 
-Log files will be written into a subdirectory named `logs`. Test setup data and the name of the test subject (filled in at the startup prompt) are logged at the beginning of the file. The rest of the lines consist of a timestamp (in seconds after the start of logging), x and y coordinates of the mouse cursor and x and y coordinates of the center of the current target. Current target gets updated after a mouseclick. Mouseclick lines are otherwise identical to normal position lines but have a `CLICK` identifier at the end of the line.
+Log files will be written into a subdirectory named `logs`. Test setup data and the name of the test subject (filled in at the startup prompt) are logged at the beginning of the file. The rest of the lines consist of a timestamp (in seconds after the start of logging), x and y coordinates of the mouse cursor and x and y coordinates of the center of the current target. Current target gets updated after a mouseclick. Mouseclick lines are otherwise identical to normal position lines but have a `CLICK` identifier at the end of the line. The sampling rate is roughly 100 fps.
 
 ### Example log file
 

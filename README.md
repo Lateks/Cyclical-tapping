@@ -76,7 +76,7 @@ A trial with nine targets always ends after 27 left mouseclicks (three rounds ar
     </tbody>
 </table>
 
-(D values approximate.)
+(D values approximate and ID values calculated using the MacKenzie formulation.)
 
 ## Log files
 
